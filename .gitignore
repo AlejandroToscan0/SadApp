@@ -1,0 +1,47 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+venv/
+.env/
+.venv/
+
+# Distribución / empaquetado
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Logs
+*.log
+
+# Configuración de editores
+# VSCode
+.vscode/
+# PyCharm
+.idea/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sistema operativo
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+
+# Testing
+htmlcov/
+.coverage
+.cache/
+pytest_cache/
+
+# Otros
+*.env
+.env.*
