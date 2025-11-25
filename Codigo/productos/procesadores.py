@@ -1,9 +1,5 @@
 from core.interfaces import ProcesadorTexto
 
-# ==========================================
-# Procesadores - Lingüístico
-# ==========================================
-
 class ProcesadorPalabrasClave(ProcesadorTexto):
     def procesar(self, texto: str) -> dict:
         print(f"--- [Procesador Lingüistico] Tokenizando y buscando palabras clave en: '{texto}' ---")
@@ -16,10 +12,6 @@ class ProcesadorPalabrasClave(ProcesadorTexto):
         }
         return features
 
-
-# ==========================================
-# Procesadores - Machine Learning
-# ==========================================
 
 class ProcesadorVectorial(ProcesadorTexto):
     def procesar(self, texto: str) -> list:

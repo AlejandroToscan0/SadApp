@@ -1,9 +1,5 @@
 from abc import ABC, abstractmethod
 
-# ==========================================
-# 1. Abstract Products (Interfaces)
-# ==========================================
-
 class ProcesadorTexto(ABC):
     """Interfaz para el preprocesamiento del texto."""
     @abstractmethod
@@ -18,12 +14,10 @@ class AnalizadorRiesgo(ABC):
         pass
 
 
-# ==========================================
-# 4. Abstract Factory
-# ==========================================
+
 
 class SaludMentalFactory(ABC):
-    """Fábrica Abstracta para crear familias de análisis."""
+    """Fábrica Abstracta para crear familias de analisis."""
     @abstractmethod
     def crear_procesador(self) -> ProcesadorTexto:
         pass

@@ -2,16 +2,14 @@ from core.interfaces import SaludMentalFactory
 
 
 class AdministradorAnalisisTexto:
-    """
-    Singleton que administra el proceso de análisis completo.
-    """
 
     _instancia = None
 
     def __init__(self, factory: SaludMentalFactory):
+        print("Constructor Singleton ejecutado")
         self.factory = factory
-        self._procesador = factory.crear_procesador()
-        self._analizador = factory.crear_analizador()
+        self.procesador = factory.crear_procesador()
+        self.analizador = factory.crear_analizador()
 
     @classmethod
     def get_instancia(cls, factory: SaludMentalFactory = None):
@@ -24,9 +22,9 @@ class AdministradorAnalisisTexto:
 
     def set_factory(self, factory: SaludMentalFactory):
         self.factory = factory
-        self._procesador = factory.crear_procesador()
-        self._analizador = factory.crear_analizador()
+        self.procesador = factory.crear_procesador()
+        self.analizador = factory.crear_analizador()
 
     def analizar(self, texto: str) -> str:
-        datos = self._procesador.procesar(texto)
-        return self._analizador.evaluar_riesgo(datos)
+        datos = self.procesador.procesar(texto)
+        return self.analizador.evaluar_riesgo(datos)

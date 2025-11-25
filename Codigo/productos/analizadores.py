@@ -1,8 +1,5 @@
 from core.interfaces import AnalizadorRiesgo
 
-# ==========================================
-# Analizadores - Lingüístico
-# ==========================================
 
 class AnalizadorPuntajePonderado(AnalizadorRiesgo):
     def evaluar_riesgo(self, features: dict) -> str:
@@ -19,10 +16,6 @@ class AnalizadorPuntajePonderado(AnalizadorRiesgo):
         else:
             return "Riesgo BAJO"
 
-
-# ==========================================
-# Analizadores - Machine Learning
-# ==========================================
 
 class ClasificadorNaiveBayes(AnalizadorRiesgo):
     def evaluar_riesgo(self, vector: list) -> str:
