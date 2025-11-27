@@ -17,8 +17,6 @@ El diseño sigue dos patrones de diseño fundamentales:
 ```bash
 proyecto_analisis/
 │
-├── main.py
-│
 ├── core/
 │ ├── interfaces.py
 │ └── singleton.py
@@ -28,7 +26,9 @@ proyecto_analisis/
 │ └── analizadores.py
 │
 └── fabricas/
-└── fabricas.py
+│ └── fabricas.py
+│
+├── main.py
 ```
 
 

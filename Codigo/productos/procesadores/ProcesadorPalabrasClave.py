@@ -1,4 +1,4 @@
-from core.interfaces import ProcesadorTexto
+from core.interfaces.ProcesadorTexto import ProcesadorTexto
 
 class ProcesadorPalabrasClave(ProcesadorTexto):
     def procesar(self, texto: str) -> dict:
@@ -11,9 +11,3 @@ class ProcesadorPalabrasClave(ProcesadorTexto):
             "desesperanza": 0.65 if "sentido" in palabras else 0.0
         }
         return features
-
-
-class ProcesadorVectorial(ProcesadorTexto):
-    def procesar(self, texto: str) -> list:
-        print("--- [Procesador ML] Convirtiendo texto a vectores numericos ---")
-        return [0.1, 0.5, 0.9, 0.0]
