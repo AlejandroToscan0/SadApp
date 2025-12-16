@@ -1,4 +1,4 @@
-from core.interfaces import SaludMentalFactory
+from core.interfaces.SaludMentalFactory import SaludMentalFactory
 from resource.GeneradorRecomendaciones import GeneradorRecomendaciones
 
 class AdministradorAnalisisTexto:
@@ -16,7 +16,7 @@ class AdministradorAnalisisTexto:
         if cls._instancia is None:
             if factory is None:
                 raise ValueError("Se debe proporcionar una fábrica al inicializar.")
-            cls._instancia = AdministradorAnalisisTexto(factory)
+            cls._instancia = cls(factory)
 
         return cls._instancia
 

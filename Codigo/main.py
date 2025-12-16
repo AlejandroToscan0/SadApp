@@ -1,6 +1,15 @@
+import argparse
+import os
 from fabricas.FabricaLinguistica import FabricaLinguistica
 from fabricas.FabricaMachineLearning import FabricaMachineLearning
 from core.singleton import AdministradorAnalisisTexto
+
+
+def obtener_factory_por_nombre(name: str):
+    """Retorna la fábrica correspondiente según el nombre dado."""
+    if name and name.lower().startswith('ml'):
+        return FabricaMachineLearning()
+    return FabricaLinguistica()
 
 
 def mostrar_resultado(resultado: dict, titulo: str):
@@ -30,39 +39,51 @@ def mostrar_resultado(resultado: dict, titulo: str):
 
 
 if __name__ == "__main__":
-    # Entrada del usuario (ejemplo del documento de requisitos)
-    entrada = input("Ingrese el texto para analizar: ")
-    
-    print("\n" + "="*70)
-    print("  SISTEMA DE ANÁLISIS DE SALUD MENTAL")
-    print("="*70)
+    parser = argparse.ArgumentParser(description="CLI para probar patrones (Singleton, Abstract Factory, Strategy, Factory Method)")
+    parser.add_argument('--text', '-t', help='Texto a analizar. Si no se provee, se pedirá interactivamente.')
+    parser.add_argument('--strategy', '-s', choices=['linguistica', 'ml'], default='linguistica', help='Estrategia/fábrica a usar para el análisis.')
+    parser.add_argument('--web', action='store_true', help='Levanta el front web (Flask).')
+    parser.add_argument('--port', type=int, default=int(os.environ.get('PORT', 5000)), help='Puerto para el front web si se usa --web.')
+    args = parser.parse_args()
+
+    if args.web:
+        # Ejecutar el front web (importa y arranca la app flask)
+        print(f"Arrancando front web en http://127.0.0.1:{args.port}")
+        # import local de la app y arrancarla
+        try:
+            from webapp import app
+            app.run(host='127.0.0.1', port=args.port)
+        except Exception as e:
+            print('No se pudo iniciar la aplicación web:', e)
+        raise SystemExit(0)
+
+    # Si no pedimos web, procesar en modo CLI
+    if args.text:
+        entrada = args.text
+    else:
+        entrada = input('Ingrese el texto para analizar: ')
+
+    print('\n' + '='*70)
+    print('  SISTEMA DE ANÁLISIS DE SALUD MENTAL (CLI)')
+    print('='*70)
     print(f"Texto ingresado: '{entrada}'")
-    
-    # ============ ANÁLISIS CON ESTRATEGIA LINGÜÍSTICA ============
-    print("\n\n[PASO 1] Inicializando Singleton con Fábrica Lingüística...")
-    manager = AdministradorAnalisisTexto.get_instancia(FabricaLinguistica())
-    
-    print("\n[PASO 2] Ejecutando análisis lingüístico...")
-    resultado_linguistico = manager.analizar(entrada)
-    mostrar_resultado(resultado_linguistico, "ANÁLISIS LINGÜÍSTICO (Abstract Factory + Factory Method)")
-    
-    # ============ ANÁLISIS CON ESTRATEGIA MACHINE LEARNING ============
-    print("\n\n[PASO 3] Cambiando a estrategia de Machine Learning...")
-    manager.set_factory(FabricaMachineLearning())
-    
-    print("\n[PASO 4] Ejecutando análisis con ML...")
-    resultado_ml = manager.analizar(entrada)
-    mostrar_resultado(resultado_ml, "ANÁLISIS MACHINE LEARNING (Abstract Factory + Factory Method)")
-    
-    # ============ RESUMEN FINAL ============
-    print("\n\n" + "="*70)
-    print("  RESUMEN DE PATRONES DE DISEÑO UTILIZADOS")
-    print("="*70)
-    print("✓ SINGLETON: Instancia única del AdministradorAnalisisTexto")
-    print("✓ ABSTRACT FACTORY: FabricaLinguistica y FabricaMachineLearning")
-    print("✓ STRATEGY: Diferentes procesadores y analizadores intercambiables")
-    print("✓ FACTORY METHOD: GeneradorRecomendaciones crea recomendaciones específicas")
-    print("  - RecomendacionRiesgoBajoFactory")
-    print("  - RecomendacionRiesgoModeradoFactory")
-    print("  - RecomendacionRiesgoAltoFactory")
-    print("="*70)
+
+    # Inicializar singleton con la fábrica seleccionada
+    factory = obtener_factory_por_nombre(args.strategy)
+    print('\n[PASO 1] Inicializando/obteniendo Administrador con la fábrica seleccionada...')
+    manager = AdministradorAnalisisTexto.get_instancia(factory)
+    manager.set_factory(factory)
+
+    print('\n[PASO 2] Ejecutando análisis...')
+    resultado = manager.analizar(entrada)
+    mostrar_resultado(resultado, f"ANÁLISIS ({'ML' if args.strategy=='ml' else 'Lingüístico'})")
+
+    # Resumen
+    print('\n' + '='*70)
+    print('  RESUMEN DE PATRONES DE DISEÑO UTILIZADOS')
+    print('='*70)
+    print('✓ SINGLETON: Instancia única del AdministradorAnalisisTexto')
+    print('✓ ABSTRACT FACTORY: FabricaLinguistica y FabricaMachineLearning')
+    print('✓ STRATEGY: Diferentes procesadores y analizadores intercambiables')
+    print('✓ FACTORY METHOD: GeneradorRecomendaciones crea recomendaciones específicas')
+    print('='*70)
