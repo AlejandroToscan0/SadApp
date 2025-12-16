@@ -18,7 +18,7 @@ class ProcesadorPalabrasClave(ProcesadorTexto):
         primera = ["me ", " yo", "mi ", "mí ", "estoy ", "me siento"]
 
         # Desesperanza / falta de sentido
-        desesperanza = ["sin sentido", "nada tiene sentido", "no tiene sentido", "vale la pena", "sin ganas"]
+        desesperanza = ["sin sentido", "nada tiene sentido", "no tiene sentido", "vale la pena", "sin ganas", "no quiero vivir", "no quiero seguir"]
 
         negatividad = 0.1
         if any(k in texto_lower for k in high_neg):
