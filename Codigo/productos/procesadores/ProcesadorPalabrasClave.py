@@ -37,10 +37,14 @@ class ProcesadorPalabrasClave(ProcesadorTexto):
         # Also catch explicit short negatives
         if "no" in texto_lower.split() or "nada" in texto_lower.split() or "nunca" in texto_lower.split():
             negatividad = max(negatividad, 0.6)
+        # Detectar términos de riesgo grave (ideación suicida / autolesión)
+        danger_terms = ["matar", "morir", "suicid", "suicida", "me quiero morir", "me quiero matar", "voy a matarme", "voy a morir", "me voy a matar"]
+        danger = any(k in texto_lower for k in danger_terms)
 
         features = {
             "negatividad": negatividad,
             "primera_persona": primera_persona,
-            "desesperanza": desesperanza_score
+            "desesperanza": desesperanza_score,
+            "danger": danger
         }
         return features
