@@ -1,0 +1,49 @@
+@startuml General_Funcionamiento
+title Diagrama General - Sistema de Analisis de Riesgo Emocional
+
+' Render sin Graphviz (evita error del dot)
+!pragma layout smetana
+skinparam componentStyle rectangle
+
+actor Usuario
+rectangle "UI (CLI/Web)" as UI
+component "AdministradorAnalisisTexto\n(Singleton)" as Admin
+component "FabricaLinguistica" as FL
+component "FabricaMachineLearning" as FM
+component "AdaptadorProcesador" as Adapter
+component "ProcesadorPalabrasClave" as PPK
+component "ProcesadorVectorial" as PV
+component "AnalizadorPuntajePonderado" as APP
+component "ClasificadorNaiveBayes" as CNB
+component "GeneradorRecomendaciones\n(Factory Method)" as GR
+component "Recomendaciones\n(Riesgo Bajo/Moderado/Alto)" as Rec
+component "GestorObservadores" as GO
+component "LoggerAnalisis" as LA
+component "AlertaRiesgoAlto" as ARA
+
+Usuario --> UI : texto + estrategia
+UI --> Admin : analizar(texto)
+
+Admin --> FL : seleccionar
+Admin --> FM : seleccionar
+
+FL --> PPK : crear_procesador()
+FL --> APP : crear_analizador()
+FM --> PV : crear_procesador()
+FM --> CNB : crear_analizador()
+
+Admin --> Adapter : envolver procesador
+Adapter --> PPK : procesa
+Adapter --> PV : procesa
+
+Admin --> APP : evaluar_riesgo()
+Admin --> CNB : evaluar_riesgo()
+
+Admin --> GR : generar_recomendacion()
+GR --> Rec : crear/usar
+
+Admin --> GO : notificar()
+GO --> LA : actualizar()
+GO --> ARA : actualizar()
+
+@enduml

@@ -111,9 +111,12 @@ ProyectoAnalisis/
 │   ├── Factory\ Method/
 │   │   └── Factory\ Method.mdj
 │   ├── Adapter/
-│   │   └── Adapter.puml (PlantUML - Patrón Adapter)
-│   └── Observer/
-│       └── Observer.puml (PlantUML - Patrón Observer)
+│   │   └── [Diagramas UML/Adapter/Adapter.puml](Diagramas%20UML/Adapter/Adapter.puml) (PlantUML - Patrón Adapter)
+│   ├── Observer/
+│   │   └── [Diagramas UML/Observer/Observer.puml](Diagramas%20UML/Observer/Observer.puml) (PlantUML - Patrón Observer)
+│   ├── [Diagramas UML/Diagrama_General.puml](Diagramas%20UML/Diagrama_General.puml) (PlantUML - Diagrama general del sistema)
+│   ├── [Diagramas UML/Diagrama_Secuencia.puml](Diagramas%20UML/Diagrama_Secuencia.puml) (PlantUML - Diagrama de secuencia)
+│   └── [Diagramas UML/Diagrama_Flujo.puml](Diagramas%20UML/Diagrama_Flujo.puml) (PlantUML - Diagrama de flujo general)
 │
 ├── GUIA_PRUEBAS.md (Guía completa de uso de herramientas de prueba)
 ├── README.md
@@ -122,6 +125,17 @@ ProyectoAnalisis/
 ```
 
 ---
+
+## Diagramas UML
+
+- [Diagramas UML/Diagrama_General.puml](Diagramas%20UML/Diagrama_General.puml) - Diagrama general del sistema
+- [Diagramas UML/Diagrama_Secuencia.puml](Diagramas%20UML/Diagrama_Secuencia.puml) - Diagrama de secuencia
+- [Diagramas UML/Diagrama_Flujo.puml](Diagramas%20UML/Diagrama_Flujo.puml) - Diagrama de flujo general
+- [Diagramas UML/Adapter/Adapter.puml](Diagramas%20UML/Adapter/Adapter.puml) - Patrón Adapter
+- [Diagramas UML/Observer/Observer.puml](Diagramas%20UML/Observer/Observer.puml) - Patrón Observer
+- [Diagramas UML/Singleton/Singleton.mdj](Diagramas%20UML/Singleton/Singleton.mdj) - Patrón Singleton (StarUML)
+- [Diagramas UML/Abstract Factory/Abstract Factory.mdj](Diagramas%20UML/Abstract%20Factory/Abstract%20Factory.mdj) - Patrón Abstract Factory (StarUML)
+- [Diagramas UML/Factory Method/Factory Method.mdj](Diagramas%20UML/Factory%20Method/Factory%20Method.mdj) - Patrón Factory Method (StarUML)
 
 ## Instalación y Configuración
 

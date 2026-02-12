@@ -1,0 +1,47 @@
+@startuml Secuencia_Analisis
+title Diagrama de Secuencia - Analisis de Texto
+
+' Render sin Graphviz (evita error del dot)
+!pragma layout smetana
+
+actor Usuario
+participant "UI (CLI/Web)" as UI
+participant "AdministradorAnalisisTexto" as Admin
+participant "SaludMentalFactory" as Factory
+participant "AdaptadorProcesador" as Adapter
+participant "Procesador" as Processor
+participant "Analizador" as Analyzer
+participant "GeneradorRecomendaciones" as GR
+participant "RecomendacionFactory" as RF
+participant "Recomendacion" as Rec
+participant "GestorObservadores" as GO
+participant "LoggerAnalisis" as LA
+participant "AlertaRiesgoAlto" as ARA
+
+Usuario -> UI : ingresar texto + estrategia
+UI -> Admin : get_instancia(factory)
+Admin -> Factory : crear_procesador()
+Admin -> Factory : crear_analizador()
+
+Admin -> Adapter : procesar(texto)
+Adapter -> Processor : procesar(texto)
+Processor --> Adapter : datos crudos
+Adapter --> Admin : features unificadas
+
+Admin -> Analyzer : evaluar_riesgo(features)
+Analyzer --> Admin : resultado_analisis
+
+Admin -> GR : generar_recomendacion(nivel, resultado)
+GR -> RF : obtener_factory(nivel)
+RF -> Rec : crear_recomendacion()
+Rec --> GR : texto + recursos
+GR --> Admin : recomendacion + recursos
+
+Admin -> GO : notificar("analisis_completado", resultado)
+GO -> LA : actualizar(resultado)
+GO -> ARA : actualizar(resultado)
+
+Admin --> UI : resultado final
+UI --> Usuario : mostrar salida
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml Flujo_Analisis
+title Diagrama de Flujo - Funcionamiento General
+
+' Render sin Graphviz (evita error del dot)
+!pragma layout smetana
+
+start
+:Ingresar texto;
+:Seleccionar estrategia;
+if (Estrategia = Linguistica?) then (Si)
+  :Usar FabricaLinguistica;
+else (No)
+  :Usar FabricaMachineLearning;
+endif
+:Obtener/crear AdministradorAnalisisTexto (Singleton);
+:Crear procesador y analizador;
+:Adaptar procesador (Adapter);
+:Procesar texto;
+:Evaluar riesgo;
+:Generar recomendacion (Factory Method);
+:Notificar observadores (Observer);
+:Mostrar resultado;
+stop
+
+@enduml
