@@ -8,48 +8,55 @@ app = Flask(__name__)
 
 
 def _get_factory(choice: str):
-	if choice == 'ml':
-		return FabricaMachineLearning()
-	return FabricaLinguistica()
+    if choice == 'ml':
+        return FabricaMachineLearning()
+    return FabricaLinguistica()
 
 
 @app.route('/', methods=['GET'])
 def index():
-	ejemplo = 'me siento triste y nada tiene sentido'
-	return render_template('index.html', resultado=None, ejemplo=ejemplo)
+    ejemplo = 'me siento triste y nada tiene sentido'
+    return render_template('index.html', resultado=None, ejemplo=ejemplo)
 
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-	texto = request.form.get('texto', '').strip()
-	strategy = request.form.get('strategy', 'linguistica')
+    try:
+        texto = request.form.get('texto', '').strip()
+        strategy = request.form.get('strategy', 'linguistica')
 
-	factory = _get_factory(strategy)
+        # Validar que el texto no esté vacío
+        if not texto:
+            return render_template('index.html', resultado=None, ejemplo=texto, error="Por favor ingresa un texto"), 400
 
-	# Inicializar/obtener singleton
-	manager = AdministradorAnalisisTexto.get_instancia(factory)
-	# Si ya existía, cambiamos la factory
-	manager.set_factory(factory)
+        print(f"[DEBUG] Texto recibido: {texto[:50]}...")
+        print(f"[DEBUG] Estrategia: {strategy}")
 
-	resultado = manager.analizar(texto)
+        factory = _get_factory(strategy)
+        print(f"[DEBUG] Factory creada: {type(factory).__name__}")
 
-	# Para permitir uso en template, convertir llaves a atributos simples usando un pequeño helper
-	class Attr:
-		def __init__(self, d):
-			self.__dict__.update(d)
+        # Inicializar/obtener singleton
+        manager = AdministradorAnalisisTexto.get_instancia(factory)
+        print(f"[DEBUG] Manager obtenido: {type(manager).__name__}")
 
-	# preparar objeto simple para Jinja
-	analisis = resultado['analisis']
-	out = type('R', (), {})()
-	out.analisis = Attr(analisis)
-	out.recomendacion = resultado['recomendacion']
-	out.recursos = resultado['recursos']
+        resultado = manager.analizar(texto)
+        print(f"[DEBUG] Análisis completado: {resultado.keys()}")
+        print(
+            f"[DEBUG] Estructura de analisis: {resultado['analisis'].keys()}")
 
-	return render_template('index.html', resultado=out, ejemplo=texto)
+        # Pasar directamente el diccionario a Jinja2
+        # Jinja2 puede acceder a dict keys como atributos
+        return render_template('index.html', resultado=resultado, ejemplo=texto)
+
+    except Exception as e:
+        print(f"[ERROR] {type(e).__name__}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return render_template('index.html', resultado=None, ejemplo="", error=str(e)), 500
 
 
 if __name__ == '__main__':
-	port = int(os.environ.get('PORT', '5001'))
-	host = os.environ.get('HOST', '127.0.0.1')
-	print(f'Iniciando servidor web en http://{host}:{port}')
-	app.run(host=host, port=port, debug=False)
+    port = int(os.environ.get('PORT', '5001'))
+    host = os.environ.get('HOST', '127.0.0.1')
+    print(f'Iniciando servidor web en http://{host}:{port}')
+    app.run(host=host, port=port, debug=True)

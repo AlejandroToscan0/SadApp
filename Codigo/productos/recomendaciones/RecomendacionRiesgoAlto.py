@@ -1,11 +1,13 @@
 from core.interfaces.Recomendacion import Recomendacion
 
+
 class RecomendacionRiesgoAlto(Recomendacion):
     """Recomendaciones para riesgo ALTO."""
+
     def generar(self, resultado: str) -> str:
-        print("\n--- [Factory Method] Creando recomendaciones para RIESGO ALTO ---")
+        print(
+            "\n--- [Factory Method] Creando recomendaciones para RIESGO ALTO ---")
         return (
-            f"🚨 {resultado}\n"
             "ACCIÓN INMEDIATA REQUERIDA:\n"
             "• Contactar INMEDIATAMENTE con un profesional de salud mental.\n"
             "• Llamar a la línea de prevención de suicidio: 171 (Ecuador).\n"
