@@ -7,8 +7,10 @@ class ClasificadorNaiveBayes(AnalizadorRiesgo):
 
         if probabilidad > 0.7:
             nivel = "Riesgo ALTO (Predicción ML)"
-        else:
+        elif probabilidad >= 0.3:
             nivel = "Riesgo BAJO (Predicción ML)"
+        else:
+            nivel = "Sin Problema (Predicción ML)"
         
         return {
             "nivel": nivel,

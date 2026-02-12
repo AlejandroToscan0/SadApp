@@ -2,12 +2,14 @@ from core.interfaces.RecomendacionFactory import RecomendacionFactory
 from fabricas.RecomendacionRiesgoBajoFactory import RecomendacionRiesgoBajoFactory
 from fabricas.RecomendacionRiesgoModeradoFactory import RecomendacionRiesgoModeradoFactory
 from fabricas.RecomendacionRiesgoAltoFactory import RecomendacionRiesgoAltoFactory
+from fabricas.RecomendacionNingunProblemaFactory import RecomendacionNingunProblemaFactory
 
 class GeneradorRecomendaciones:
     """Context que utiliza Factory Method para generar recomendaciones dinámicamente."""
 
     # Mapeo de niveles de riesgo a factories
     _factories_map = {
+        "Sin Problema": RecomendacionNingunProblemaFactory(),
         "Riesgo BAJO": RecomendacionRiesgoBajoFactory(),
         "Riesgo MODERADO": RecomendacionRiesgoModeradoFactory(),
         "Riesgo ALTO": RecomendacionRiesgoAltoFactory(),
