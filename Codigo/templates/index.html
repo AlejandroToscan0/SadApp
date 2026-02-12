@@ -10,101 +10,524 @@
         --card: #ffffff;
         --accent: #4b7bec;
         --muted: #6b7280;
+        --border: #dfe3eb;
         --user: #e6f0ff;
         --bot: #ffffff;
       }
-      html,body{height:100%;margin:0;font-family: Inter, Roboto, Arial, sans-serif;background:var(--bg);}
-      .wrap{max-width:880px;margin:28px auto;padding:18px}
-      header{display:flex;align-items:center;gap:12px}
-      h1{margin:0;font-size:20px}
-      .panel{display:flex;gap:18px;margin-top:12px}
-      .left{flex:1}
-      .right{width:340px}
-      .chat-window{background:linear-gradient(180deg,#eef3ff 0%, #f8fbff 100%);height:520px;border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(15,23,42,0.06);overflow:auto}
-      .composer{margin-top:10px;display:flex;gap:8px}
-      textarea{flex:1;resize:none;border-radius:10px;padding:10px;border:1px solid #e6e9ef;background:transparent}
-      button.primary{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;cursor:pointer}
-      .message{max-width:78%;padding:10px 14px;border-radius:14px;margin:8px 0;line-height:1.35}
-      .message.user{background:var(--user);margin-left:auto;border-bottom-right-radius:4px}
-      .message.bot{background:var(--bot);border-bottom-left-radius:4px}
-      .meta{font-size:12px;color:var(--muted);margin-top:6px}
-      .patterns{background:var(--card);padding:10px;border-radius:8px;box-shadow:0 2px 6px rgba(10,20,40,0.04)}
-      .resources li{margin-bottom:6px}
-      pre{white-space:pre-wrap;font-family:inherit}
+      *{box-sizing:border-box;margin:0;padding:0}
+      html,body{height:100%;font-family: Inter, Roboto, Arial, sans-serif;background:var(--bg);}
+      body{display:flex;flex-direction:column;padding:20px;gap:16px}
+      
+      /* TITULO */
+      header{
+        background:var(--card);
+        border:2px solid var(--border);
+        border-radius:8px;
+        padding:20px;
+        text-align:center;
+        box-shadow:0 8px 24px rgba(0,0,0,0.12);
+      }
+      h1{
+        font-size:28px;
+        font-weight:700;
+        letter-spacing:0.5px;
+        text-transform:uppercase;
+      }
+      
+      /* PANEL MEDIO - dos columnas */
+      .panel-medio{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:16px;
+        flex:1;
+        min-height:0;
+      }
+      
+      /* RESPUESTA (izquierda) */
+      .respuesta{
+        background:var(--card);
+        border:2px solid var(--border);
+        border-radius:8px;
+        padding:20px;
+        overflow:auto;
+        box-shadow:0 8px 24px rgba(0,0,0,0.12);
+        display:flex;
+        flex-direction:column;
+      }
+      .respuesta h2{
+        font-size:20px;
+        margin-bottom:16px;
+        text-align:center;
+        text-transform:uppercase;
+        letter-spacing:0.3px;
+      }
+      .respuesta-contenido{
+        flex:1;
+        overflow:auto;
+        padding:10px;
+      }
+      
+      /* PATRONES (derecha) */
+      .patrones{
+        background:var(--card);
+        border:2px solid var(--border);
+        border-radius:8px;
+        padding:20px;
+        overflow:auto;
+        box-shadow:0 8px 24px rgba(0,0,0,0.12);
+      }
+      .patrones h2{
+        font-size:18px;
+        margin-bottom:12px;
+        text-align:center;
+        text-transform:uppercase;
+        letter-spacing:0.3px;
+      }
+      .patrones ul{
+        list-style:none;
+        padding:0;
+        margin-top:12px;
+      }
+      .patrones li{
+        margin-bottom:10px;
+        padding:8px;
+        background:#f8fafc;
+        border-radius:6px;
+        font-size:14px;
+        line-height:1.5;
+      }
+      .patrones li strong{
+        color:var(--accent);
+        display:block;
+        margin-bottom:4px;
+      }
+      
+      /* Estilos para Score dinámico */
+      .score-display {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+      }
+      
+      /* Score bajo (0.0 - 0.4) */
+      .score-bajo {
+        background: #d1fae5;
+        color: #065f46;
+        font-size: 14px;
+      }
+      
+      /* Score moderado (0.4 - 0.7) */
+      .score-moderado {
+        background: #fef3c7;
+        color: #92400e;
+        font-size: 16px;
+      }
+      
+      /* Score alto (0.7 - 1.0) */
+      .score-alto {
+        background: #fee2e2;
+        color: #991b1b;
+        font-size: 18px;
+        font-weight: 700;
+        padding: 12px 16px;
+      }
+      
+      /* Score crítico (cercano a 1.0) */
+      .score-critico {
+        background: #fca5a5;
+        color: #7f1d1d;
+        font-size: 20px;
+        font-weight: 700;
+        padding: 14px 18px;
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        animation: pulse-critical 1.5s infinite;
+      }
+      
+      /* Animación de pulso para crítico */
+      @keyframes pulse-critical {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+      }
+      
+      /* Estilos para Nivel de Riesgo dinámico */
+      .nivel-riesgo {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+      
+      .nivel-bajo {
+        color: #065f46;
+        background: #d1fae5;
+      }
+      
+      .nivel-moderado {
+        color: #92400e;
+        background: #fef3c7;
+      }
+      
+      .nivel-alto {
+        color: #7f1d1d;
+        background: #fee2e2;
+        font-size: 18px;
+        padding: 8px 14px;
+        font-weight: 700;
+      }
+      
+      .nivel-critico {
+        color: #7f1d1d;
+        background: #fca5a5;
+        font-size: 20px;
+        padding: 10px 16px;
+        font-weight: 700;
+        box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+      }
+      
+      /* ESPACIO MENSAJE (abajo) */
+      .composer-container{
+        background:var(--card);
+        border:2px solid var(--border);
+        border-radius:8px;
+        padding:20px;
+        box-shadow:0 8px 24px rgba(0,0,0,0.12);
+      }
+      .composer-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:12px;
+      }
+      .font-controls{
+        display:flex;
+        align-items:center;
+        gap:8px;
+      }
+      .font-controls label{
+        font-size:13px;
+        color:var(--muted);
+      }
+      .font-controls button{
+        background:var(--accent);
+        color:white;
+        border:none;
+        padding:4px 10px;
+        border-radius:4px;
+        cursor:pointer;
+        font-size:14px;
+        font-weight:600;
+      }
+      .font-controls button:hover{
+        background:#3d6ad6;
+      }
+      .composer-container h2{
+        font-size:18px;
+        margin-bottom:12px;
+        text-align:center;
+        text-transform:uppercase;
+        letter-spacing:0.3px;
+      }
+      .composer{
+        display:flex;
+        gap:12px;
+        align-items:stretch;
+      }
+      textarea{
+        flex:1;
+        resize:none;
+        border-radius:8px;
+        padding:12px;
+        border:1px solid var(--border);
+        background:white;
+        font-family:inherit;
+        font-size:14px;
+        min-height:60px;
+      }
+      button.primary{
+        background:var(--accent);
+        color:white;
+        border:none;
+        padding:12px 32px;
+        border-radius:8px;
+        cursor:pointer;
+        font-weight:600;
+        font-size:14px;
+        transition:background 0.2s;
+        white-space:nowrap;
+      }
+      button.primary:hover{
+        background:#3d6ad6;
+      }
+      
+      /* Mensajes estilo chat */
+      .message{
+        max-width:85%;
+        padding:12px 16px;
+        border-radius:12px;
+        margin:10px 0;
+        line-height:1.5;
+        font-size:14px;
+      }
+      .message.user{
+        background:var(--user);
+        margin-left:auto;
+        border-bottom-right-radius:4px;
+        text-align:right;
+      }
+      .message.bot{
+        background:#f8fafc;
+        border:1px solid var(--border);
+        border-bottom-left-radius:4px;
+      }
+      .message strong{
+        color:var(--accent);
+      }
+      .meta{
+        font-size:12px;
+        color:var(--muted);
+        margin-top:6px;
+      }
+      .resources{
+        margin-top:8px;
+        padding-left:20px;
+      }
+      .resources li{
+        margin-bottom:4px;
+        font-size:13px;
+      }
+      pre{
+        white-space:pre-wrap;
+        font-family:inherit;
+        margin:0;
+      }
+      hr{
+        border:none;
+        border-top:1px solid var(--border);
+        margin:12px 0;
+      }
+      
+      @media (max-width: 980px){
+        .panel-medio{grid-template-columns:1fr}
+        body{padding:12px}
+      }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <header>
-        <h1>Sistema de Análisis de Salud Mental — Chat</h1>
-      </header>
+    <!-- TITULO -->
+    <header>
+      <h1>Sistema de Análisis de Salud Mental</h1>
+    </header>
 
-      <div class="panel">
-        <div class="left">
-          <div class="chat-window" id="chat">
-            {% if resultado %}
-              <div class="message user">{{ ejemplo }}</div>
+    <!-- PANEL MEDIO: RESPUESTA + PATRONES -->
+    <div class="panel-medio">
+      <!-- RESPUESTA -->
+      <div class="respuesta">
+        <h2>Respuesta</h2>
+        <div class="respuesta-contenido" id="chat">
+          {% if resultado %}
+            <div class="message user">{{ ejemplo }}</div>
 
-              <div class="message bot">
-                <strong>Método:</strong> {{ resultado.analisis.metodo }}<br>
-                <strong>Nivel:</strong> {{ resultado.analisis.nivel }}
-                {% if resultado.analisis.score is defined %}
-                  <div class="meta">Score: {{ '%.2f'|format(resultado.analisis.score) }}</div>
-                {% endif %}
-                {% if resultado.analisis.probabilidad is defined %}
-                  <div class="meta">Probabilidad: {{ '%.2f'|format(resultado.analisis.probabilidad) }}</div>
-                {% endif %}
+            <div class="message bot">
+              <strong>Método:</strong> {{ resultado.analisis.metodo }}<br>
+              <strong>Nivel:</strong> <span id="nivelRiesgo" class="nivel-riesgo"></span>
+              {% if resultado.analisis.score is defined %}
+                <div class="meta">
+                  <span id="scoreDisplay" class="score-display"></span>
+                </div>
+              {% endif %}
+              {% if resultado.analisis.probabilidad is defined %}
+                <div class="meta">Probabilidad: {{ '%.2f'|format(resultado.analisis.probabilidad) }}</div>
+              {% endif %}
 
-                <hr style="border:none;border-top:1px solid #eef2f7;margin:8px 0">
-                <div><strong>Recomendación</strong></div>
-                <div style="margin-top:6px"><pre>{{ resultado.recomendacion }}</pre></div>
+              <hr>
+              <div><strong>✅ Recomendación</strong></div>
+              <div style="margin-top:6px"><pre>{{ resultado.recomendacion }}</pre></div>
 
-                <div style="margin-top:8px"><strong>Recursos</strong></div>
-                <ul class="resources">
-                  {% for r in resultado.recursos %}
-                    <li>{{ r }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% else %}
-              <div style="color:var(--muted);text-align:center;margin-top:40%">Envía un texto para analizar y verás la respuesta aquí.</div>
-            {% endif %}
-          </div>
-
-          <form method="post" action="/analyze" class="composer" onsubmit="setTimeout(()=>{document.getElementById('chat').scrollTop=document.getElementById('chat').scrollHeight},200)">
-            <textarea id="texto" name="texto" placeholder="Escribe aquí tu texto...">{{ ejemplo or '' }}</textarea>
-            <input type="hidden" name="strategy" value="linguistica">
-            <button class="primary" type="submit">Enviar</button>
-          </form>
+              <div style="margin-top:10px"><strong>📚 Recursos y Enlaces</strong></div>
+              <ul class="resources">
+                {% for r in resultado.recursos %}
+                  <li>{{ r }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% else %}
+            <div style="color:var(--muted);text-align:center;padding:40px 20px">
+              Envía un texto para analizar y verás la respuesta aquí.
+            </div>
+          {% endif %}
         </div>
-
-        <aside class="right">
-          <div class="patterns">
-            <h3 style="margin-top:0">Patrones usados</h3>
-            <ul>
-              <li><strong>SINGLETON</strong>: `AdministradorAnalisisTexto`</li>
-              <li><strong>ABSTRACT FACTORY</strong>: `FabricaLinguistica` / `FabricaMachineLearning`</li>
-              <li><strong>FACTORY METHOD</strong>: `GeneradorRecomendaciones` + factories</li>
-            </ul>
-            <div class="meta">Selecciona estrategia luego envía el texto en el menú inferior.</div>
-            <form method="post" action="/analyze" style="margin-top:8px;display:flex;gap:8px">
-              <input type="hidden" name="texto" id="hidden_text" value="{{ ejemplo or '' }}">
-              <!-- Strategy selection removed from UI (kept in server-side logic) -->
-              <select name="strategy" style="display:none">
-                <option value="linguistica">Lingüística</option>
-                <option value="ml">Machine Learning</option>
-              </select>
-              <button class="primary">Analizar</button>
-            </form>
-          </div>
-        </aside>
       </div>
+
+      <!-- PATRONES -->
+      <div class="patrones">
+        <h2> 6 Patrones de Diseño Integrados</h2>
+        <ul>
+          <!-- CREACIONALES (Azul) -->
+          <li>
+            <strong> SINGLETON (Creacional)</strong>
+            Garantiza una única instancia del <code>AdministradorAnalisisTexto</code> que gestiona centralizada y consistentemente todo el flujo de análisis en la aplicación.
+          </li>
+          <li>
+            <strong> ABSTRACT FACTORY (Creacional)</strong>
+            Define familias de objetos relacionados (<code>FabricaLinguistica</code> y <code>FabricaMachineLearning</code>) que crean procesadores y analizadores compatibles entre sí.
+          </li>
+          <li>
+            <strong> FACTORY METHOD (Creacional)</strong>
+            El <code>GeneradorRecomendaciones</code> crea dinámicamente recomendaciones específicas según el nivel de riesgo detectado (BAJO, MODERADO, ALTO).
+          </li>
+          
+          <!-- ESTRUCTURAL (Verde) -->
+          <li>
+            <strong> ADAPTER (Estructural) ✨</strong>
+            El <code>AdaptadorProcesador</code> unifica la salida heterogénea de procesadores (dict vs list) en un formato consistente para el analizador.
+          </li>
+          
+          <!-- COMPORTAMIENTO (Amarillo) -->
+          <li>
+            <strong> STRATEGY (Comportamiento)</strong>
+            Los componentes (procesadores y analizadores) implementan estrategias intercambiables. Cambiar de una estrategia a otra sin impactar el software cliente.
+          </li>
+          <li>
+            <strong> OBSERVER (Comportamiento) ✨</strong>
+            <code>LoggerAnalisis</code> y <code>AlertaRiesgoAlto</code> observan eventos del sistema. Se notifican automáticamente sin acoplamiento entre componentes.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ESPACIO PARA ESCRIBIR EL MENSAJE -->
+    <div class="composer-container">
+      <div class="composer-header">
+        <h2 style="margin:0">Espacio para Escribir el Mensaje</h2>
+        <div class="font-controls">
+          <label>Tamaño de letra:</label>
+          <button type="button" onclick="changeFontSize(-1)">A-</button>
+          <button type="button" onclick="changeFontSize(1)">A+</button>
+        </div>
+      </div>
+      <form method="post" action="/analyze" class="composer" id="messageForm" onsubmit="return handleSubmit(event)">
+        <textarea id="texto" name="texto" placeholder="Escribe aquí tu texto para analizar...">{{ ejemplo or '' }}</textarea>
+        <input type="hidden" name="strategy" value="linguistica">
+        <button class="primary" type="submit">Enviar</button>
+      </form>
     </div>
 
     <script>
       // Auto-scroll al final cuando exista contenido
       const chat = document.getElementById('chat');
       if(chat) chat.scrollTop = chat.scrollHeight;
+
+      // Tamaño de fuente del textarea
+      let fontSize = 14;
+      const textarea = document.getElementById('texto');
+
+      function changeFontSize(delta) {
+        fontSize = Math.max(10, Math.min(24, fontSize + delta * 2));
+        textarea.style.fontSize = fontSize + 'px';
+      }
+
+      // Manejar envío con Enter
+      textarea.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          document.getElementById('messageForm').submit();
+        }
+      });
+
+      // Función para manejar el envío y limpiar el textarea
+      function handleSubmit(e) {
+        const texto = textarea.value.trim();
+        if (!texto) {
+          e.preventDefault();
+          return false;
+        }
+        // Guardar el valor antes de limpiar
+        setTimeout(() => {
+          textarea.value = '';
+          if(chat) chat.scrollTop = chat.scrollHeight;
+        }, 100);
+        return true;
+      }
+
+      // ============ FUNCIONALIDAD DE SCORE DINÁMICO ============
+      function actualizarScoreYNivel() {
+        const nivelEl = document.getElementById('nivelRiesgo');
+        const scoreEl = document.getElementById('scoreDisplay');
+        
+        if (!nivelEl || !scoreEl) return;
+        
+        // Extraer el texto del nivel (ej: "Riesgo ALTO", "Riesgo MODERADO")
+        // Buscar en el mensaje del bot
+        const botMessages = document.querySelectorAll('.message.bot');
+        if (botMessages.length === 0) return;
+        
+        const lastBotMessage = botMessages[botMessages.length - 1];
+        const content = lastBotMessage.textContent;
+        
+        // Buscar línea con "Nivel:"
+        let nivelText = '';
+        let levelType = '';
+        
+        if (content.includes('Riesgo ALTO')) {
+          nivelText = 'Riesgo ALTO';
+          levelType = 'alto';
+        } else if (content.includes('Riesgo MODERADO')) {
+          nivelText = 'Riesgo MODERADO';
+          levelType = 'moderado';
+        } else if (content.includes('Riesgo BAJO')) {
+          nivelText = 'Riesgo BAJO';
+          levelType = 'bajo';
+        }
+        
+        // Extraer score
+        let scoreValue = 0;
+        const scoreMatch = content.match(/Score:\s*([\d.]+)/);
+        if (scoreMatch) {
+          scoreValue = parseFloat(scoreMatch[1]);
+        }
+        
+        // Aplicar estilos al nivel
+        nivelEl.textContent = nivelText;
+        nivelEl.className = 'nivel-riesgo';
+        
+        if (scoreValue >= 0.85) {
+          nivelEl.classList.add('nivel-critico');
+        } else if (scoreValue >= 0.6) {
+          nivelEl.classList.add('nivel-alto');
+        } else if (scoreValue >= 0.4) {
+          nivelEl.classList.add('nivel-moderado');
+        } else {
+          nivelEl.classList.add('nivel-bajo');
+        }
+        
+        // Aplicar estilos al score
+        const scoreText = `Score: ${scoreValue.toFixed(2)}`;
+        scoreEl.textContent = scoreText;
+        scoreEl.className = 'score-display';
+        
+        if (scoreValue >= 0.85) {
+          scoreEl.classList.add('score-critico');
+        } else if (scoreValue >= 0.6) {
+          scoreEl.classList.add('score-alto');
+        } else if (scoreValue >= 0.4) {
+          scoreEl.classList.add('score-moderado');
+        } else {
+          scoreEl.classList.add('score-bajo');
+        }
+      }
+      
+      // Ejecutar cuando la página carga
+      document.addEventListener('DOMContentLoaded', actualizarScoreYNivel);
+      
+      // Ejecutar cada vez que hay un cambio en el chat
+      const observer = new MutationObserver(actualizarScoreYNivel);
+      if (chat) {
+        observer.observe(chat, { childList: true, subtree: true });
+      }
     </script>
   </body>
 </html>

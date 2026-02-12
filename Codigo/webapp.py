@@ -15,7 +15,7 @@ def _get_factory(choice: str):
 
 @app.route('/', methods=['GET'])
 def index():
-	ejemplo = 'me siento sin sentido y nada tiene sentido'
+	ejemplo = 'me siento triste y nada tiene sentido'
 	return render_template('index.html', resultado=None, ejemplo=ejemplo)
 
 
@@ -49,9 +49,7 @@ def analyze():
 
 
 if __name__ == '__main__':
-	port = int(os.environ.get('PORT', '5000'))
+	port = int(os.environ.get('PORT', '5001'))
 	host = os.environ.get('HOST', '127.0.0.1')
 	print(f'Iniciando servidor web en http://{host}:{port}')
 	app.run(host=host, port=port, debug=False)
-
-#se cambia el port a 5001 en caso de estar ocupado el 5000

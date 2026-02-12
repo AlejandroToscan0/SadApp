@@ -3,6 +3,9 @@ import os
 from fabricas.FabricaLinguistica import FabricaLinguistica
 from fabricas.FabricaMachineLearning import FabricaMachineLearning
 from core.singleton import AdministradorAnalisisTexto
+from core.observers.LoggerAnalisis import LoggerAnalisis
+from core.observers.AlertaRiesgoAlto import AlertaRiesgoAlto
+
 
 
 def obtener_factory_por_nombre(name: str):
@@ -73,6 +76,13 @@ if __name__ == "__main__":
     print('\n[PASO 1] Inicializando/obteniendo Administrador con la fábrica seleccionada...')
     manager = AdministradorAnalisisTexto.get_instancia(factory)
     manager.set_factory(factory)
+    
+    # OBSERVER PATTERN: Registrar observadores
+    print('[PASO 1.5] Registrando observadores...')
+    logger = LoggerAnalisis()
+    alerta = AlertaRiesgoAlto()
+    manager.registrar_observador(logger)
+    manager.registrar_observador(alerta)
 
     print('\n[PASO 2] Ejecutando análisis...')
     resultado = manager.analizar(entrada)
@@ -82,8 +92,13 @@ if __name__ == "__main__":
     print('\n' + '='*70)
     print('  RESUMEN DE PATRONES DE DISEÑO UTILIZADOS')
     print('='*70)
-    print('✓ SINGLETON: Instancia única del AdministradorAnalisisTexto')
-    print('✓ ABSTRACT FACTORY: FabricaLinguistica y FabricaMachineLearning')
-    print('✓ STRATEGY: Diferentes procesadores y analizadores intercambiables')
-    print('✓ FACTORY METHOD: GeneradorRecomendaciones crea recomendaciones específicas')
+    print('\n🔵 PATRONES CREACIONALES:')
+    print('  ✓ SINGLETON: Instancia única del AdministradorAnalisisTexto')
+    print('  ✓ ABSTRACT FACTORY: FabricaLinguistica y FabricaMachineLearning')
+    print('  ✓ FACTORY METHOD: GeneradorRecomendaciones crea recomendaciones específicas')
+    print('\n🟢 PATRONES ESTRUCTURALES:')
+    print('  ✓ ADAPTER: AdaptadorProcesador unifica salida de procesadores heterogéneos')
+    print('\n🟡 PATRONES DE COMPORTAMIENTO:')
+    print('  ✓ STRATEGY: Diferentes procesadores y analizadores intercambiables')
+    print('  ✓ OBSERVER: LoggerAnalisis y AlertaRiesgoAlto notificados de eventos')
     print('='*70)

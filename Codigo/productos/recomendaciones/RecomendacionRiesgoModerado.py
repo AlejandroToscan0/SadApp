@@ -18,6 +18,6 @@ class RecomendacionRiesgoModerado(Recomendacion):
         return [
             "https://www.psicologia.org/consulta-online",
             "https://www.respiracion.com/tecnicas-basicas",
-            "https://www.apoyo-emocional.org/linea24h",
-            "Número de ayuda: 024 (España)"
+            "https://www.salud.gob.ec/apoyo-emocional",
+            "Número de ayuda: 171 (Ecuador - Línea de Ayuda en Crisis)"
         ]
